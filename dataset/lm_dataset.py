@@ -56,14 +56,13 @@ class PretrainDataset(Dataset):
 
 
 class SFTDataset(Dataset):
-    def __init__(self, jsonl_path, tokenizer, max_length=2048):
-        """SFT dataset loader. Increased default max_length from 1024 to 2048
+    def __init__(self, jsonl_path, tokenizer, max_length=4096):
+        """SFT dataset loader. Increased default max_length from 2048 to 4096
         to better handle longer conversations without truncating context.
+        Note: higher max_length increases memory usage per batch.
         """
         super().__init__()
         self.tokenizer = tokenizer
         self.max_length = max_length
         features = Features({'conversations': [{'role': Value('string'), 'content': Value('string'), 'reasoning_content': Value('string'), 'tools': Value('string'), 'tool_calls': Value('string')}]})
-        self.samples = load_dataset('json', data_files=jsonl_path, split='train', features=features)
-        self.bos_id = tokenizer(f'{tokenizer.bos_token}assistant\n', add_special_tokens=False).input_ids
-        self.eos_id = tokenizer(f'{tokenizer.eos_token}\n',
+        self.samples = load_dataset('json', data
