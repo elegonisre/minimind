@@ -29,7 +29,7 @@ def pre_processing_chat(conversations, add_system_ratio=0.3):
     return conversations
 
 def post_processing_chat(prompt_content, empty_think_ratio=0.2):
-    # 以80%概率移除空思考标签
+    # 以80%概率移除空思考标签 (increased threshold: keep empty thinks more rarely)
     if '<think>\n\n</think>\n\n' in prompt_content and random.random() > empty_think_ratio:
         prompt_content = prompt_content.replace('<think>\n\n</think>\n\n', '')
     return prompt_content
@@ -56,7 +56,10 @@ class PretrainDataset(Dataset):
 
 
 class SFTDataset(Dataset):
-    def __init__(self, jsonl_path, tokenizer, max_length=1024):
+    def __init__(self, jsonl_path, tokenizer, max_length=2048):
+        """SFT dataset loader. Increased default max_length from 1024 to 2048
+        to better handle longer conversations without truncating context.
+        """
         super().__init__()
         self.tokenizer = tokenizer
         self.max_length = max_length
