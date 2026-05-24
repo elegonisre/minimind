@@ -9,3 +9,8 @@ Place the downloaded dataset file in the current directory.
 - Dataset files are large and not tracked by git (see `.gitignore`)
 - After downloading, verify file integrity with the checksums provided in the main README
 - Recommended minimum disk space: ~20GB for the full dataset
+
+## Personal Notes
+
+- Downloaded datasets stored at: `~/data/minimind/` and symlinked here
+- Using only the pretrain dataset for initial experiments to save disk space
